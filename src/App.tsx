@@ -19,6 +19,8 @@ function App() {
       if (data.response_code == 0) {
         const question: Question = data.results[0];
         console.log(question);
+        //set the context with the question
+        dispatch({type:'setQuestion', payload: question})
         dispatch({ type: "setStatus", payload: "ready" });
       } else {
         dispatch({ type: "setStatus", payload: "error" });
