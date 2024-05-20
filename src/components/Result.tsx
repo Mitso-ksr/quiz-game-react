@@ -1,10 +1,20 @@
+import { useQuiz } from "../QuizContext";
+import { decode } from "html-entities";
 
 function Result() {
 
+    const {state} = useQuiz();
 
     return (
         <>  
-            <div className="result correct">&#10003; You answered correctly!</div>
+            {
+                state.userAnswer === state.question?.correct_answer 
+                ? 
+                <div className="result correct">&#10003; You answered correctly!</div>
+                :
+                <div className="result incorrect">&#x274C; You answered incorrectly! The correct answer was {state.question?.correct_answer}</div>
+            }
+
         </>
     )
 }
