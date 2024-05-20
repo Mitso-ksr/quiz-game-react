@@ -18,6 +18,8 @@ function App() {
       const data: QuestionsResponse = await response.json();
       if (data.response_code == 0) {
         const question: Question = data.results[0];
+        const randomIndex = Math.round(Math.random() * question.incorrect_answers.length)
+        question.incorrect_answers.splice(randomIndex, 0, question.correct_answer)
         console.log(question);
         //set the context with the question
         dispatch({type:'setQuestion', payload: question})
