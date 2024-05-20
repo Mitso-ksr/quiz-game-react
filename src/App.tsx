@@ -8,11 +8,7 @@ import { useQuiz, Question, QuestionsResponse } from "./QuizContext.tsx";
 
 function App() {
   const { state, dispatch } = useQuiz();
-<<<<<<< HEAD
   const [error, setError] = useState("");
-=======
-  console.log(state);
->>>>>>> parent of 5c84d58 (Infinite play implemented)
 
   async function fetchQuestion() {
     try {
@@ -53,14 +49,14 @@ function App() {
         <Loader />
       ) : state.gameStatus == "error" ? (
         <Error error= {error} />
-      ) :  
+      ) :  (
         <>
+        
           <Score />
           <Game />
         </>
-      ) : (
-        ""
-      )}
+      )
+        }
     </>
   );
 }
