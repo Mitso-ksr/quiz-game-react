@@ -45,7 +45,7 @@ function App() {
         <Loader />
       ) : state.gameStatus == "error" ? (
         <h4>Error...</h4>
-      ) : state.gameStatus == "ready" ? (
+      ) : state.gameStatus == "ready" || state.gameStatus == "answered" ? (
         <>
           <Score />
           <Game />

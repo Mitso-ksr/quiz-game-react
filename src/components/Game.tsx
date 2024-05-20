@@ -8,7 +8,7 @@ import { decode } from 'html-entities';
 
 function Game() {
 
-    const {state} =  useQuiz();
+    const {state, dispatch} =  useQuiz();
     
     return (
         <>
@@ -24,11 +24,13 @@ function Game() {
                 </div>
                
                {
-                state.userAnswer && <button>Submit</button>
+                state.userAnswer && state.gameStatus !== 'answered' && <button onClick={() => dispatch({type:'setStatus', payload:'answered'})}>Submit</button>
                }
 
-                
-                <Result />
+                {
+                    state.gameStatus === 'answered' && <Result />
+                }
+
                 
             </div>
             

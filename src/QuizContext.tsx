@@ -14,7 +14,7 @@ export interface QuestionsResponse {
   results: Question[];
 }
 
-type Status = "idle" | "fetching" | "ready" | "error";
+type Status = "idle" | "fetching" | "ready" | "error" | 'answered';
 interface QuizState {
   gameStatus: Status;
   question: Question | null
