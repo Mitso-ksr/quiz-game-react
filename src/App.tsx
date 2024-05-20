@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./App.scss";
 import Score from "./components/Score.tsx";
 import Game from "./components/Game.tsx";
 import Loader from "./components/FullPageLoader.tsx";
-import Error from "./components/Error.tsx";
 import { useQuiz, Question, QuestionsResponse } from "./QuizContext.tsx";
 
 function App() {
   const { state, dispatch } = useQuiz();
-  const [error, setError] = useState("");
 
   async function fetchQuestion() {
     try {
-
       dispatch({ type: "setStatus", payload: "fetching" });
       const response = await fetch(
         "https://opentdb.com/api.php?amount=1&category=18",
@@ -28,11 +25,9 @@ function App() {
         dispatch({ type: "setStatus", payload: "ready" });
       } else {
         dispatch({ type: "setStatus", payload: "error" });
-        setError("Error Fetching From Open Trivia API")
       }
-    } catch (err : any) {
+    } catch (err) {
       console.log("error in fetchquestion:", err);
-      setError(err.message) ;
       dispatch({ type: "setStatus", payload: "error" });
     }
   }
