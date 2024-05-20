@@ -18,11 +18,13 @@ type Status = "idle" | "fetching" | "ready" | "error";
 interface QuizState {
   gameStatus: Status;
   question: Question | null
+  userAnswer: string | null
 }
 
 const initialState: QuizState = {
   gameStatus: "idle",
-  question: null
+  question: null,
+  userAnswer: null
 };
 
 interface QuizContext {
@@ -36,6 +38,10 @@ type QuizAction = {
 } | {
   type: 'setQuestion';
   payload: Question;
+} | 
+{
+  type: 'setUserAnswer';
+  payload: string
 }
 const QuizContext = createContext<QuizContext>({
   state: initialState,
@@ -61,6 +67,8 @@ function QuizReducer(state: QuizState, action: QuizAction): QuizState {
       return { ...state, gameStatus: action.payload };
     case "setQuestion":
       return { ...state, question: action.payload };
+    case "setUserAnswer":
+      return { ...state, userAnswer: action.payload };
     default:
       throw new Error("Unknown action");
   }

@@ -23,7 +23,10 @@ function Game() {
                     })}
                 </div>
                
-                <button>Submit</button>
+               {
+                state.userAnswer && <button>Submit</button>
+               }
+
                 
                 <Result />
                 
