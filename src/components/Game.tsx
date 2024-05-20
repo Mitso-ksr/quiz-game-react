@@ -3,6 +3,8 @@ import AnswerOption from './AnswerOption.tsx';
 import Result from './Result.tsx';
 import { useQuiz } from '../QuizContext.tsx';
 import { decode } from 'html-entities';
+//@ts-ignore
+import confetti from 'https://cdn.skypack.dev/canvas-confetti';
 
 
 
@@ -10,6 +12,22 @@ function Game() {
 
     const {state, dispatch} =  useQuiz();
     
+    const wonAudio = new Audio('./sounds/won.wav')
+    const lostAudio = new Audio('./sounds/lost.wav')
+
+    function handleSubmit () {
+        dispatch({type:'setStatus', payload:'answered'})
+        if (state.question?.correct_answer == state.userAnswer) {
+            dispatch({type: 'setScore', payload:'correct' })
+            wonAudio.play();
+            confetti();
+        } else {
+            dispatch({type:'setScore', payload: 'incorrect'})
+            lostAudio.play()
+        }
+
+    }
+
     return (
         <>
             <div className="container game-screen">
@@ -24,11 +42,15 @@ function Game() {
                 </div>
                
                {
-                state.userAnswer && state.gameStatus !== 'answered' && <button onClick={() => dispatch({type:'setStatus', payload:'answered'})}>Submit</button>
+                state.userAnswer && state.gameStatus !== 'answered' && <button onClick={handleSubmit}>Submit</button>
                }
 
                 {
-                    state.gameStatus === 'answered' && <Result />
+                    state.gameStatus === 'answered' &&
+                    <>
+                     <Result />
+                     <button onClick={() => dispatch({type:"setStatus", payload: "idle"})}>Next Question</button>
+                    </>
                 }
 
                 
