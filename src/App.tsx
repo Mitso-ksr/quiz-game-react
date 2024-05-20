@@ -8,13 +8,16 @@ import { useQuiz, Question, QuestionsResponse } from "./QuizContext.tsx";
 
 function App() {
   const { state, dispatch } = useQuiz();
+<<<<<<< HEAD
   const [error, setError] = useState("");
+=======
+  console.log(state);
+>>>>>>> parent of 5c84d58 (Infinite play implemented)
 
   async function fetchQuestion() {
     try {
 
       dispatch({ type: "setStatus", payload: "fetching" });
-      dispatch({ type: "setUserAnswer", payload: null });
       const response = await fetch(
         "https://opentdb.com/api.php?amount=1&category=18",
       );
@@ -23,6 +26,8 @@ function App() {
         const question: Question = data.results[0];
         const randomIndex = Math.round(Math.random() * question.incorrect_answers.length)
         question.incorrect_answers.splice(randomIndex, 0, question.correct_answer)
+        console.log(question);
+        //set the context with the question
         dispatch({type:'setQuestion', payload: question})
         dispatch({ type: "setStatus", payload: "ready" });
       } else {
@@ -37,10 +42,10 @@ function App() {
   }
 
   useEffect(() => {
-    if (state.gameStatus =="idle") {
+    if (state.gameStatus === "idle") {
       fetchQuestion();
     }
-  });
+  }, []);
 
   return (
     <>
@@ -53,8 +58,9 @@ function App() {
           <Score />
           <Game />
         </>
-      
-      }
+      ) : (
+        ""
+      )}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import {  createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 export interface Question {
   category: string;
@@ -14,26 +14,17 @@ export interface QuestionsResponse {
   results: Question[];
 }
 
-interface Score {
-  correct: number,
-  incorrect: number
-}
-
 type Status = "idle" | "fetching" | "ready" | "error" | 'answered';
 interface QuizState {
   gameStatus: Status;
-  question: Question | null;
-  userAnswer: string | null;
-  score: Score
+  question: Question | null
+  userAnswer: string | null
 }
+
 const initialState: QuizState = {
   gameStatus: "idle",
   question: null,
-  userAnswer: null,
-  score: {
-    correct: 0,
-    incorrect: 0
-  }
+  userAnswer: null
 };
 
 interface QuizContext {
@@ -50,11 +41,7 @@ type QuizAction = {
 } | 
 {
   type: 'setUserAnswer';
-  payload: string | null
-} |
-{
-  type: 'setScore';
-  payload: 'correct' | 'incorrect'
+  payload: string
 }
 const QuizContext = createContext<QuizContext>({
   state: initialState,
@@ -82,11 +69,6 @@ function QuizReducer(state: QuizState, action: QuizAction): QuizState {
       return { ...state, question: action.payload };
     case "setUserAnswer":
       return { ...state, userAnswer: action.payload };
-    case "setScore":{
-      let score = state.score;
-      score[action.payload] += 1
-      return {...state, score}
-    }
     default:
       throw new Error("Unknown action");
   }
