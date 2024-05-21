@@ -36,14 +36,14 @@ function App() {
     if (state.gameStatus === "idle") {
       fetchQuestion();
     }
-  }, []);
+  })
 
   return (
     <>
       {state.gameStatus === "fetching" ? (
         <Loader />
       ) : state.gameStatus == "error" ? (
-        <Error error= {error} />
+        <h1>Error</h1>
       ) :  (
         <>
         

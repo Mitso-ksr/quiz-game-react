@@ -9,6 +9,15 @@ import { decode } from 'html-entities';
 function Game() {
 
     const {state, dispatch} =  useQuiz();
+
+    function handleSubmit() {
+        dispatch({type:'setStatus', payload:'answered'})
+        if (state.userAnswer === state.question?.correct_answer) {
+            dispatch({type: 'setScore' , payload:'correct'})
+        } else {
+            dispatch({type: 'setScore' , payload: 'incorrect'})
+        }
+    }
     
     return (
         <>
@@ -24,11 +33,21 @@ function Game() {
                 </div>
                
                {
-                state.userAnswer && state.gameStatus !== 'answered' && <button onClick={() => dispatch({type:'setStatus', payload:'answered'})}>Submit</button>
+                state.userAnswer && state.gameStatus !== 'answered' && <button onClick={handleSubmit}>Submit</button>
                }
 
                 {
-                    state.gameStatus === 'answered' && <Result />
+
+                    <>
+                        {state.gameStatus === 'answered' 
+                        &&
+                        <>
+                         <Result />
+                         <button onClick={() => dispatch({type:"setStatus" , payload:"idle"})}>Next Question</button>
+                        </>
+                        }
+                        
+                    </>
                 }
 
                 

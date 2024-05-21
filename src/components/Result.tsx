@@ -12,7 +12,7 @@ function Result() {
                 ? 
                 <div className="result correct">&#10003; You answered correctly!</div>
                 :
-                <div className="result incorrect">&#x274C; You answered incorrectly! The correct answer was {state.question?.correct_answer}</div>
+                <div className="result incorrect">&#x274C; You answered incorrectly! The correct answer was {decode(state.question?.correct_answer)}</div>
             }
 
         </>
