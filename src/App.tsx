@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.scss";
 import Score from "./components/Score.tsx";
 import Game from "./components/Game.tsx";
@@ -7,6 +7,8 @@ import { useQuiz, Question, QuestionsResponse } from "./QuizContext.tsx";
 
 function App() {
   const { state, dispatch } = useQuiz();
+  const [error , setError] = useState("");
+
 
   async function fetchQuestion() {
     try {
@@ -20,15 +22,15 @@ function App() {
         const question: Question = data.results[0];
         const randomIndex = Math.round(Math.random() * question.incorrect_answers.length)
         question.incorrect_answers.splice(randomIndex, 0, question.correct_answer)
-        console.log(question);
         //set the context with the question
         dispatch({type:'setQuestion', payload: question})
         dispatch({ type: "setStatus", payload: "ready" });
       } else {
         dispatch({ type: "setStatus", payload: "error" });
+        setError("Fetching from Open Trivia API failed, Please refresh the page")
       }
-    } catch (err) {
-      console.log("error in fetchquestion:", err);
+    } catch (err:any) {
+      setError(err.message)
       dispatch({ type: "setStatus", payload: "error" });
     }
   }
@@ -44,7 +46,9 @@ function App() {
       {state.gameStatus === "fetching" ? (
         <Loader />
       ) : state.gameStatus == "error" ? (
-        <h1>Error</h1>
+        <h1 style={{
+          "textAlign" : 'center'
+        }}>Error: {error}</h1>
       ) :  (
         <>
         
