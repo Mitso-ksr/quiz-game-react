@@ -51,7 +51,7 @@ type QuizAction = {
 } | 
 {
   type: 'setUserAnswer';
-  payload: string
+  payload: string | null
 } |
 {
   type: 'setScore';
